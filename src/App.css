@@ -32,6 +32,10 @@ body{
   color: #61dafb;
 }
 
+.edit-icon{
+  height: 20px;
+}
+
 @keyframes App-logo-spin {
   0% {
     transform: rotate(0deg);

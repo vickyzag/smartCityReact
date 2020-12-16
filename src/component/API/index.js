@@ -1,6 +1,28 @@
-import {getSportHallById} from './http';
+import {getSportHalls, getSportHallById} from './http';
 
-const loadData = async (sportHallId) => {
+const loadSportHalls = async () => {
+    try {
+        const data = await getSportHalls();
+        const sportHalls = []
+        for (const sportHall of data) {
+            sportHalls.push(
+            {
+                id: sportHall.id,
+                name: sportHall.name,
+                manager: sportHall.manager.last_name +" "+ sportHall.manager.first_name+" ("+sportHall.manager.email+")",
+                phone_number: sportHall.phone_number,
+                email: sportHall.email_sh,
+                address: sportHall.address+", "+sportHall.zip_code+" "+sportHall.city_name+" "+sportHall.country,
+            }
+        )
+        }
+        return sportHalls;
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+
+const loadSportHall = async (sportHallId) => {
     try {
         const data = await getSportHallById(sportHallId);
         return {
@@ -19,4 +41,4 @@ const loadData = async (sportHallId) => {
     }
 };
 
-export {loadData};
+export {loadSportHalls, loadSportHall};

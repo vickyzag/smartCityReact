@@ -13,11 +13,15 @@ code {
 }
 
 table {
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+  margin-left: 10%;
+  margin-right: 10%;
   border: medium solid #000000;
-  width: 50%;
+  width: 80%;
   border-collapse: collapse
 }
 td, th {
   border: thin solid #6495ed;
-  width: 50%;
+  height: 30px;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {loadData} from './API';
+import {loadSportHall} from './API';
 import SportHallInFormation from './SportHallInformation'
 
 
@@ -31,7 +31,7 @@ class SportHall extends React.Component{
     search() {
         this.setState({loading: true, error: false}, async () => {
             try{
-                const result = await loadData(this.state.sportHallId);
+                const result = await loadSportHall(this.state.sportHallId);
                 const state = {
                     loaded: true,
                     loading: false,

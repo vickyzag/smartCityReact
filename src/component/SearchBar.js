@@ -21,6 +21,7 @@ class SearchBar extends React.Component{
     render(){
         return <input
             type="text"
+            placeholder="Search"
             onChange={
                 (event) => this.changeSearchValue(event)
             }/>
