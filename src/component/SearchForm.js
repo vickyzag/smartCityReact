@@ -2,8 +2,9 @@ import React from 'react';
 import SearchBar from './SearchBar';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {loadSportHalls} from './API';
-import edit from "../edit.png";
+import {loadSportHalls, deleteSportHall} from './API';
+import editIcon from "../edit.png";
+import deleteIcon from "../delete.png";
 
 class SearchForm extends React.Component{
 
@@ -17,6 +18,9 @@ class SearchForm extends React.Component{
             inputPhoneNumber: "",
             inputEmail: "",
             inputAddress: "",
+            inputZipCode: "",
+            inputCity: "",
+            inputCountry: "",
             loading: true,
             error: false,
             errorMessage: "",
@@ -45,7 +49,9 @@ class SearchForm extends React.Component{
                 });
             }
         });
-
+    }
+    async deleteById(id){
+        await deleteSportHall(id);
     }
     componentDidUpdate(prevProps) {
         if(this.props !== prevProps){
@@ -54,17 +60,6 @@ class SearchForm extends React.Component{
                 sportHallsToShow: this.props.sportHalls
             });
         }
-    }
-
-    addSportHall(event){
-        event.preventDefault();
-        const newSportHall = {
-            name: this.state.inputName,
-            manager: this.state.inputManager,
-            phoneNumber: this.state.inputPhoneNumber,
-            email: this.state.inputEmail
-        }
-        this.props.addSportHall(newSportHall);
     }
 
     changeValuesToShow(string){
@@ -107,10 +102,10 @@ class SearchForm extends React.Component{
                                     <td>{h.email}</td>
                                     <td>{h.address}</td>
                                     <td>
-                                        <Link to={`/sportHall/${h.id}`}><img src={edit} className="edit-icon" alt="modify"/></Link>
+                                        <Link to={`/sportHall/${h.id}`}><img src={editIcon} className="options-icon" alt="modify"/></Link>
                                     </td>
                                     <td>
-                                        <Link to={`/sportHall/${h.id}`}>Lien</Link>
+                                        <img src={deleteIcon} className="options-icon" alt="delete"  onClick={(e) => this.deleteById(h.id)}/>
                                     </td>
                                 </tr>
                             );
@@ -138,6 +133,26 @@ class SearchForm extends React.Component{
                         <input type="email"
                                onChange={(event) => {
                                    this.setState({inputEmail: event.target.value});
+                               }}/>
+                        <label>Address: </label>
+                        <input type="text"
+                               onChange={(event) => {
+                                   this.setState({inputAddress: event.target.value});
+                               }}/>
+                        <label>Zip code: </label>
+                        <input type="text"
+                               onChange={(event) => {
+                                   this.setState({inputZipCode: event.target.value});
+                               }}/>
+                        <label>City: </label>
+                        <input type="text"
+                               onChange={(event) => {
+                                   this.setState({inputCity: event.target.value});
+                               }}/>
+                        <label>Country: </label>
+                        <input type="text"
+                               onChange={(event) => {
+                                   this.setState({inputCountry: event.target.value});
                                }}/>
                         <button onClick={(event) => this.addSportHall(event)}>Ajouter</button>
                     </form>

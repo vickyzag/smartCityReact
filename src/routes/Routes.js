@@ -11,6 +11,8 @@ export default function Routes(){
     return(
         <Router>
             <Switch>
+                <Route path="/sportHall/delete/:id" component={SportHall}>
+                </Route>
                 <Route path="/sportHall/:id" component={SportHall}>
                 </Route>
                 <Route path="/">

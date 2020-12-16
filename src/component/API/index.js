@@ -1,4 +1,4 @@
-import {getSportHalls, getSportHallById} from './http';
+import {getSportHalls, getSportHallById, deleteSportHallById} from './http';
 
 const loadSportHalls = async () => {
     try {
@@ -9,7 +9,7 @@ const loadSportHalls = async () => {
             {
                 id: sportHall.id,
                 name: sportHall.name,
-                manager: sportHall.manager.last_name +" "+ sportHall.manager.first_name+" ("+sportHall.manager.email+")",
+                manager: (sportHall.manager?sportHall.manager.last_name +" "+ sportHall.manager.first_name+" ("+sportHall.manager.email+")":"Pas de manager"),
                 phone_number: sportHall.phone_number,
                 email: sportHall.email_sh,
                 address: sportHall.address+", "+sportHall.zip_code+" "+sportHall.city_name+" "+sportHall.country,
@@ -41,4 +41,12 @@ const loadSportHall = async (sportHallId) => {
     }
 };
 
-export {loadSportHalls, loadSportHall};
+const deleteSportHall = async (sportHallId) => {
+    try {
+        await deleteSportHallById(sportHallId);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
+
+export {loadSportHalls, loadSportHall, deleteSportHall};

@@ -55,9 +55,7 @@ class SportHall extends React.Component{
                 });
             }
         });
-
     }
-
 
     render(){
         let Content;

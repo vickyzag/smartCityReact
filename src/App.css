@@ -32,8 +32,12 @@ body{
   color: #61dafb;
 }
 
-.edit-icon{
+.options-icon{
   height: 20px;
+  cursor: pointer;
+}
+.options-icon:hover{
+  height: 30px;
 }
 
 @keyframes App-logo-spin {
