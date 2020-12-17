@@ -6,7 +6,7 @@ import {loadSportHalls, deleteSportHall} from './API';
 import editIcon from "../edit.png";
 import deleteIcon from "../delete.png";
 
-class SearchForm extends React.Component{
+class SportHalls extends React.Component{
 
     constructor(props) {
         super(props);
@@ -176,4 +176,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SportHalls);
