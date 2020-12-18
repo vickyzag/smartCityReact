@@ -1,6 +1,5 @@
 import React from 'react';
-import {loadSportHall} from './API';
-import SportHallInFormation from './SportHallInformation'
+import {loadSportHall, modifySportHall} from './API';
 
 
 class SportHall extends React.Component{
@@ -25,6 +24,13 @@ class SportHall extends React.Component{
     }
 
     componentDidMount() {
+        this.search();
+    }
+
+
+    async modifySportHall(event){
+        event.preventDefault();
+        await modifySportHall(this.state.sportHallId, this.state.name,this.state.manager, this.state.phone_number, this.state.email, this.state.address, this.state.city_name, this.state.zip_code, this.state.country)
         this.search();
     }
 
@@ -64,17 +70,60 @@ class SportHall extends React.Component{
         } else if(this.state.error){
             Content = <p>{this.state.errorMessage}</p>
         } else {
-            Content = <SportHallInFormation
-                sportHallId={this.state.sportHallId}
-                name={this.state.name}
-                manager={this.state.manager}
-                phone_number={this.state.phone_number}
-                email={this.state.email}
-                address={this.state.address}
-                city_name={this.state.city_name}
-                zip_code={this.state.zip_code}
-                country={this.state.country}
-            />
+            Content =
+                <form>
+                <p>Id: {this.state.sportHallId}</p>
+                <label>Name: </label>
+                <input type="text"
+                       value={this.state.name}
+                       onChange={(e) => this.setState({name: e.target.value})}
+                       required
+                /><br/>
+                <label>Manager: </label>
+                <input type="text"
+                       value={this.state.manager}
+                       onChange={(e) => this.setState({manager: e.target.value})}
+                       required
+                /><br/>
+                <label>Phone number: </label>
+                <input type="text"
+                       value={this.state.phone_number}
+                       onChange={(e) => this.setState({phone_number: e.target.value})}
+                       required
+                /><br/>
+                <label>Email: </label>
+                <input type="text"
+                       value={this.state.email}
+                       onChange={(e) => this.setState({email: e.target.value})}
+                       required
+                /><br/>
+                <label>Address: </label>
+                <input type="text"
+                       value={this.state.address}
+                       onChange={(e) => this.setState({address: e.target.value})}
+                       required
+                /><br/>
+                <label>City name:</label>
+                <input type="text"
+                       value={this.state.city_name}
+                       onChange={(e) => this.setState({city_name: e.target.value})}
+                       required
+                /><br/>
+                <label>Zip code:</label>
+                <input type="number"
+                       value={this.state.zip_code}
+                       onChange={(e) => this.setState({zip_code: e.target.value})}
+                       required
+                /><br/>
+                <label>Country:</label>
+                <input type="text"
+                       value={this.state.country}
+                       onChange={(e) => this.setState({country: e.target.value})}
+                       required
+                /><br/>
+                <button onClick={(event) => this.modifySportHall(event)}>Modify</button>
+
+            </form>
         }
 
         return(

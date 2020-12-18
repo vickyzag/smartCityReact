@@ -1,4 +1,12 @@
-import {getSportHalls, getSportHallById, deleteSportHallById} from './http';
+import {connexion, getSportHalls, getSportHallById, postSportHall, deleteSportHallById, updateSportHall} from './http';
+
+const login = async (email, password) => {
+    try {
+        await connexion(email, password);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
 
 const loadSportHalls = async () => {
     try {
@@ -17,6 +25,22 @@ const loadSportHalls = async () => {
         )
         }
         return sportHalls;
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+
+const addSportHall = async (name, manager, phoneNumber, email, address, city, zipCode, country) => {
+    try {
+        await postSportHall(name, manager, phoneNumber, email, address, city, zipCode, country);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+
+const modifySportHall = async (id, name, manager, phoneNumber, email, address, city, zipCode, country) => {
+    try {
+        await updateSportHall(id, name, manager, phoneNumber, email, address, city, zipCode, country);
     } catch (e) {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
@@ -49,4 +73,6 @@ const deleteSportHall = async (sportHallId) => {
     }
 };
 
-export {loadSportHalls, loadSportHall, deleteSportHall};
+
+
+export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall};

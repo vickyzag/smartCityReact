@@ -2,7 +2,7 @@ import React from 'react';
 import SearchBar from './SearchBar';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {loadSportHalls, deleteSportHall} from './API';
+import {loadSportHalls, addSportHall, deleteSportHall} from './API';
 import editIcon from "../edit.png";
 import deleteIcon from "../delete.png";
 
@@ -52,6 +52,12 @@ class SportHalls extends React.Component{
     }
     async deleteById(id){
         await deleteSportHall(id);
+        this.search();
+    }
+    async addSportHall(event){
+        event.preventDefault();
+        await addSportHall(this.state.inputName,this.state.inputManager, this.state.inputPhoneNumber, this.state.inputEmail, this.state.inputAddress, this.state.inputCity, this.state.inputZipCode, this.state.inputCountry)
+        this.search();
     }
     componentDidUpdate(prevProps) {
         if(this.props !== prevProps){
@@ -140,7 +146,7 @@ class SportHalls extends React.Component{
                                    this.setState({inputAddress: event.target.value});
                                }}/>
                         <label>Zip code: </label>
-                        <input type="text"
+                        <input type="number"
                                onChange={(event) => {
                                    this.setState({inputZipCode: event.target.value});
                                }}/>

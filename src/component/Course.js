@@ -1,6 +1,5 @@
 import React from 'react';
-import {loadSportHall} from './API';
-import SportHallInFormation from './SportHallInformation'
+
 
 
 class Course extends React.Component{

@@ -4,6 +4,7 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
+import Login from '../component/Login';
 import SportHalls from '../component/SportHalls';
 import SportHall from '../component/SportHall';
 import Courses from '../component/Courses';
@@ -14,6 +15,8 @@ export default function Routes(){
     return(
         <Router>
             <Switch>
+                <Route path="/login" component={Login}>
+                </Route>
                 <Route path="/sportHalls" component={SportHalls}>
                 </Route>
                 <Route path="/sportHall/:id" component={SportHall}>
