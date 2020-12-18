@@ -12,26 +12,16 @@ class Login extends React.Component{
         }
     }
 
-    async connect(){
-        try {
-            await login(this.state.inputEmail, this.state.inputPassword);
-            this.props.history.push("/");
-        }
-        catch (e){
-            throw new Error("Something went wrong, try again later "+e.toString());
-        }
+    async connect(event){
+        event.preventDefault();
+        await login(this.state.inputEmail, this.state.inputPassword);
     }
 
-    componentDidMount() {
-        if(localStorage.getItem("token") !== null){
-            this.props.history.push("/");
-        }
-    }
 
     render(){
         return (
             <div>
-                <form onSubmit={(event) => this.connect()}>
+                <form onSubmit={(event) => this.connect(event)}>
                     <label>Email: </label>
                     <input type="email"
                            id="email"

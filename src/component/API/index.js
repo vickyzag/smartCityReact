@@ -1,4 +1,4 @@
-import {connexion, getSportHalls, getSportHallById, postSportHall, deleteSportHallById, updateSportHall} from './http';
+import {connexion, getSportHalls, getSportHallById, postSportHall, deleteSportHallById, updateSportHall, getCourses, getCourseById, postCourse, updateCourse, deleteCourseById, getCourseCustomers, getSportHallCustomers} from './http';
 
 const login = async (email, password) => {
     try {
@@ -29,7 +29,6 @@ const loadSportHalls = async () => {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 }
-
 const addSportHall = async (name, manager, phoneNumber, email, address, city, zipCode, country) => {
     try {
         await postSportHall(name, manager, phoneNumber, email, address, city, zipCode, country);
@@ -37,7 +36,6 @@ const addSportHall = async (name, manager, phoneNumber, email, address, city, zi
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 }
-
 const modifySportHall = async (id, name, manager, phoneNumber, email, address, city, zipCode, country) => {
     try {
         await updateSportHall(id, name, manager, phoneNumber, email, address, city, zipCode, country);
@@ -45,7 +43,6 @@ const modifySportHall = async (id, name, manager, phoneNumber, email, address, c
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 }
-
 const loadSportHall = async (sportHallId) => {
     try {
         const data = await getSportHallById(sportHallId);
@@ -64,7 +61,6 @@ const loadSportHall = async (sportHallId) => {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 };
-
 const deleteSportHall = async (sportHallId) => {
     try {
         await deleteSportHallById(sportHallId);
@@ -73,6 +69,114 @@ const deleteSportHall = async (sportHallId) => {
     }
 };
 
+const loadCourses = async () => {
+    try {
+        const data = await getCourses();
+        const courses = []
+        for (const course of data) {
+            courses.push(
+                {
+                    courseId: course.id,
+                    sport_hall: course.sportHall,
+                    id_room: course.room.id_room,
+                    starting_date_time: course.starting_date_time,
+                    ending_date_time: course.ending_date_time,
+                    level: course.level,
+                    activity: course.activity,
+                    instructor: (course.instructor?course.instructor.last_name +" "+ course.instructor.first_name+" ("+ course.instructor.email+")":"No instructor"),
+                }
+            )
+        }
+        return courses;
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const addCourse = async (sportHall, room, startingDateTime, endingDateTime, level, activity, instructor) => {
+    try {
+        await postCourse(sportHall, room, startingDateTime, endingDateTime, level, activity, instructor);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const modifyCourse = async (id, sportHall, room, startingDateTime, endingDateTime, level, activity, instructor) => {
+    try {
+
+        await updateCourse(id, sportHall, room, startingDateTime, endingDateTime, level, activity, instructor);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const loadCourse = async (courseId) => {
+    try {
+        const data = await getCourseById(courseId);
+        return {
+            courseId: data.id,
+            id_sport_hall: data.sportHall.id_sport_hall,
+            id_room: data.room.id_room,
+            starting_date_time: data.starting_date_time,
+            ending_date_time: data.ending_date_time,
+            level: data.level,
+            activity: data.activity,
+            instructor: data.instructor.email,
+
+        };
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
+const loadCourseCustomers = async (courseId) => {
+    try {
+        const data = await getCourseCustomers(courseId);
+        const customers = [];
+        for (const customer of data) {
+            customers.push(
+                {
+                    first_name: customer.customer.first_name,
+                    last_name: customer.customer.last_name,
+                    email: customer.customer.email,
+                }
+            )
+
+        }
+        return customers;
+
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
+
+const loadSportHallCustomers = async (sportHallId) => {
+    try {
+        const data = await getSportHallCustomers(sportHallId);
+        const customers = [];
+        for (const customer of data) {
+            customers.push(
+                {
+                    first_name: customer.customer.first_name,
+                    last_name: customer.customer.last_name,
+                    email: customer.customer.email,
+                }
+            )
+
+        }
+        return customers;
+
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
+
+const deleteCourse = async (courseId) => {
+    try {
+        await deleteCourseById(courseId);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
 
 
-export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall};
+
+
+
+export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall, loadCourses, addCourse, modifyCourse, loadCourse, deleteCourse, loadCourseCustomers, loadSportHallCustomers};

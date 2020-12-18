@@ -94,6 +94,7 @@ class SportHalls extends React.Component{
                             <th>Phone number</th>
                             <th>Email</th>
                             <th>Address</th>
+                            <th>Customers</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -107,6 +108,9 @@ class SportHalls extends React.Component{
                                     <td>{h.phone_number}</td>
                                     <td>{h.email}</td>
                                     <td>{h.address}</td>
+                                    <td>
+                                        <Link to={`/sportHallCustomer/sportHall/${h.id}`}>Go to list</Link>
+                                    </td>
                                     <td>
                                         <Link to={`/sportHall/${h.id}`}><img src={editIcon} className="options-icon" alt="modify"/></Link>
                                     </td>
@@ -160,7 +164,7 @@ class SportHalls extends React.Component{
                                onChange={(event) => {
                                    this.setState({inputCountry: event.target.value});
                                }}/>
-                        <button onClick={(event) => this.addSportHall(event)}>Ajouter</button>
+                        <button onClick={(event) => this.addSportHall(event)}>Add</button>
                     </form>
                 </div>
             );

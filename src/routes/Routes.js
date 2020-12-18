@@ -7,8 +7,10 @@ import {
 import Login from '../component/Login';
 import SportHalls from '../component/SportHalls';
 import SportHall from '../component/SportHall';
+import SportHallCustomers from '../component/SportHallCustomers';
 import Courses from '../component/Courses';
 import Course from '../component/Course';
+import CourseCustomers from '../component/CourseCustomers'
 import Home from '../component/Home';
 
 export default function Routes(){
@@ -21,13 +23,15 @@ export default function Routes(){
                 </Route>
                 <Route path="/sportHall/:id" component={SportHall}>
                 </Route>
-                <Route path="/sportHall/delete/:id" component={SportHall}>
-                </Route>
                 <Route path="/courses" component={Courses}>
                 </Route>
-                <Route path="/courses/:id" component={Course}>
+                <Route path="/course/:id" component={Course}>
                 </Route>
-                <Route path="/courses/:id" component={Home}>
+                <Route path="/courseCustomer/course/:id" component={CourseCustomers}>
+                </Route>
+                <Route path="/sportHallCustomer/sportHall/:id" component={SportHallCustomers}>
+                </Route>
+                <Route path="/" component={Home}>
                 </Route>
             </Switch>
         </Router>
