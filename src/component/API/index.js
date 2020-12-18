@@ -1,4 +1,23 @@
-import {connexion, getSportHalls, getSportHallById, postSportHall, deleteSportHallById, updateSportHall, getCourses, getCourseById, postCourse, updateCourse, deleteCourseById, getCourseCustomers, getSportHallCustomers} from './http';
+import {
+    connexion,
+    getSportHalls,
+    getSportHallById,
+    postSportHall,
+    deleteSportHallById,
+    updateSportHall,
+    getCourses,
+    getCourseById,
+    postCourse,
+    updateCourse,
+    deleteCourseById,
+    getCourseCustomers,
+    getSportHallCustomers,
+    getRooms,
+    getRoomById,
+    updateRoom,
+    postRoom,
+    deleteRoomById
+} from './http';
 
 const login = async (email, password) => {
     try {
@@ -68,7 +87,6 @@ const deleteSportHall = async (sportHallId) => {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 };
-
 const loadCourses = async () => {
     try {
         const data = await getCourses();
@@ -145,7 +163,6 @@ const loadCourseCustomers = async (courseId) => {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 };
-
 const loadSportHallCustomers = async (sportHallId) => {
     try {
         const data = await getSportHallCustomers(sportHallId);
@@ -166,7 +183,6 @@ const loadSportHallCustomers = async (sportHallId) => {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 };
-
 const deleteCourse = async (courseId) => {
     try {
         await deleteCourseById(courseId);
@@ -174,9 +190,56 @@ const deleteCourse = async (courseId) => {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 };
+const loadRooms = async () => {
+    try {
+        const data = await getRooms();
+        const rooms = []
+        for (const room of data) {
+            rooms.push(
+                {
+                    id_room: room.id_room,
+                    id_sport_hall: room.id_sport_hall,
+                    max_capacity: room.max_capacity,
+                }
+            )
+        }
+        return rooms;
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const loadRoom = async (id_room, id_sport_hall) => {
+    try {
+        const data = await getRoomById(id_room, id_sport_hall);
+        return {
+            id_room: data.id_room,
+            id_sport_hall: data.id_sport_hall,
+            max_capacity: data.manager.max_capacity,
+        };
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
+const addRoom = async (id_room, id_sport_hall, max_capacity) => {
+    try {
+        await postRoom(id_room, id_sport_hall, max_capacity);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const modifyRoom = async (id_room, id_sport_hall, max_capacity) => {
+    try {
+        await updateRoom(id_room, id_sport_hall, max_capacity);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const deleteRoom = async (id_room, id_sport_hall) => {
+    try {
+        await deleteRoomById(id_room, id_sport_hall);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
 
-
-
-
-
-export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall, loadCourses, addCourse, modifyCourse, loadCourse, deleteCourse, loadCourseCustomers, loadSportHallCustomers};
+export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall, loadCourses, addCourse, modifyCourse, loadCourse, deleteCourse, loadCourseCustomers, loadSportHallCustomers, loadRooms, loadRoom, addRoom, modifyRoom, deleteRoom};

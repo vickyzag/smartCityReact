@@ -11,6 +11,7 @@ import SportHallCustomers from '../component/SportHallCustomers';
 import Courses from '../component/Courses';
 import Course from '../component/Course';
 import CourseCustomers from '../component/CourseCustomers'
+import Room from '../component/Room'
 import Home from '../component/Home';
 
 export default function Routes(){
@@ -30,6 +31,8 @@ export default function Routes(){
                 <Route path="/courseCustomer/course/:id" component={CourseCustomers}>
                 </Route>
                 <Route path="/sportHallCustomer/sportHall/:id" component={SportHallCustomers}>
+                </Route>
+                <Route path="/room/:id" component={Room}>
                 </Route>
                 <Route path="/" component={Home}>
                 </Route>

@@ -30,7 +30,7 @@ class SportHall extends React.Component{
 
     async modifySportHall(event){
         event.preventDefault();
-        await modifySportHall(this.state.sportHallId, this.state.name,this.state.manager, this.state.phone_number, this.state.email, this.state.address, this.state.city_name, this.state.zip_code, this.state.country)
+        await modifySportHall(this.state.sportHallId, this.state.name,this.state.manager, this.state.phone_number, this.state.email, this.state.address, this.state.city_name, this.state.zip_code, this.state.country);
         this.search();
     }
 
@@ -135,7 +135,4 @@ class SportHall extends React.Component{
 }
 
 
-
-
-
-export default SportHall;
+export default (SportHall);

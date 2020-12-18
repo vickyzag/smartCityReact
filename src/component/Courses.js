@@ -1,8 +1,7 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {loadSportHalls, addSportHall, deleteSportHall, loadCourses, deleteCourse, addCourse} from './API';
+import {loadCourses, deleteCourse, addCourse} from './API';
 import editIcon from "../edit.png";
 import deleteIcon from "../delete.png";
 
@@ -102,7 +101,9 @@ class Courses extends React.Component{
                             return (
                                 <tr key={index}>
                                     <td> {h.sport_hall.name}</td>
-                                    <td>{h.id_room}</td>
+                                    <td>
+                                        <Link to={`/room/${h.sport_hall.id}-${h.id_room}`}>{h.id_room}</Link>
+                                    </td>
                                     <td>{h.starting_date_time}</td>
                                     <td>{h.ending_date_time}</td>
                                     <td>{h.level}</td>
@@ -176,4 +177,4 @@ class Courses extends React.Component{
 }
 
 
-export default (Courses);
+export default (Courses)

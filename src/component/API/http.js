@@ -4,6 +4,7 @@ import {getHeader, getAPI} from "./utils";
 
 const SPORTHALL_URL = getAPI("sportHall/");
 const COURSE_URL = getAPI("course/");
+const ROOM_URL = getAPI("room/");
 const LOGIN_URL = getAPI("user/login");
 const CUSTOMER_COURSE_URL = getAPI("customerCourse/")
 const CUSTOMER_SPORTHALL_URL = getAPI("sportHallCustomer/");
@@ -26,13 +27,10 @@ const getSportHalls = async () => {
     return rep.data;
 
 };
-
-
 const getSportHallById = async (id) => {
     const rep = await axios.get(SPORTHALL_URL + id);
     return rep.data;
 };
-
 const postSportHall = async (name, manager, phoneNumber, email, address, city, zipCode, country) => {
     await axios.post(SPORTHALL_URL,
         {
@@ -47,7 +45,6 @@ const postSportHall = async (name, manager, phoneNumber, email, address, city, z
         },
         {headers: getHeader()})
 }
-
 const updateSportHall = async (id, name, manager, phoneNumber, email, address, city, zipCode, country) => {
     await axios.patch(SPORTHALL_URL,
         {
@@ -63,7 +60,6 @@ const updateSportHall = async (id, name, manager, phoneNumber, email, address, c
         },
         {headers: getHeader()})
 }
-
 const deleteSportHallById = async (id) => {
     const rep = await axios.delete(SPORTHALL_URL,{
         headers: getHeader(),
@@ -74,18 +70,15 @@ const deleteSportHallById = async (id) => {
 
     return rep.data;
 };
-
 const getCourses = async () => {
     const rep = await axios.get(COURSE_URL);
     return rep.data;
 
 };
-
 const getCourseById = async (id) => {
     const rep = await axios.get(COURSE_URL + id);
     return rep.data;
 };
-
 const postCourse = async (sportHall, room, startingDateTime, endingDateTime, level, activity, instructor) => {
     await axios.post(COURSE_URL,
         {
@@ -99,7 +92,6 @@ const postCourse = async (sportHall, room, startingDateTime, endingDateTime, lev
         },
         {headers: getHeader()})
 }
-
 const updateCourse = async (id, sportHall, room, startingDateTime, endingDateTime, level, activity, instructor) => {
     await axios.patch(COURSE_URL,
         {
@@ -114,7 +106,6 @@ const updateCourse = async (id, sportHall, room, startingDateTime, endingDateTim
         },
         {headers: getHeader()})
 }
-
 const deleteCourseById = async (id) => {
     const rep = await axios.delete(COURSE_URL,{
         headers: getHeader(),
@@ -125,17 +116,53 @@ const deleteCourseById = async (id) => {
 
     return rep.data;
 };
-
 const getCourseCustomers = async (id) => {
     const rep = await axios.get(CUSTOMER_COURSE_URL+ "course/" + id,
         {headers: getHeader()});
     return rep.data;
 };
-
 const getSportHallCustomers = async (id) => {
     const rep = await axios.get(CUSTOMER_SPORTHALL_URL + "sportHall/" + id,
         {headers: getHeader()});
     return rep.data;
 };
+const getRooms = async () => {
+    const rep = await axios.get(ROOM_URL);
+    return rep.data;
 
-export {connexion, getSportHalls, getSportHallById, postSportHall, updateSportHall, deleteSportHallById, getCourses, getCourseById, postCourse, updateCourse, deleteCourseById, getCourseCustomers, getSportHallCustomers};
+};
+const getRoomById = async (id_room, id_sport_hall) => {
+    const rep = await axios.get(ROOM_URL + id_room + "-" + id_sport_hall);
+    return rep.data;
+};
+const postRoom = async (id_room, id_sport_hall, max_capacity) => {
+    await axios.post(ROOM_URL,
+        {
+            id_room: id_room,
+            id_sport_hall: id_sport_hall,
+            max_capacity: max_capacity,
+        },
+        {headers: getHeader()})
+}
+const updateRoom = async (id_room, id_sport_hall, max_capacity) => {
+    await axios.patch(ROOM_URL,
+        {
+            id_room: id_room,
+            id_sport_hall: id_sport_hall,
+            max_capacity: max_capacity
+        },
+        {headers: getHeader()})
+}
+const deleteRoomById = async (id_room, id_sport_hall) => {
+    const rep = await axios.delete(ROOM_URL,{
+        headers: getHeader(),
+        data: {
+            id_room: id_room,
+            id_sport_hall: id_sport_hall
+        }
+    });
+
+    return rep.data;
+};
+
+export {connexion, getSportHalls, getSportHallById, postSportHall, updateSportHall, deleteSportHallById, getCourses, getCourseById, postCourse, updateCourse, deleteCourseById, getCourseCustomers, getSportHallCustomers, getRooms, getRoomById, postRoom, updateRoom, deleteRoomById};

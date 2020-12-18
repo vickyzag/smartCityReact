@@ -1,18 +1,7 @@
 import React from 'react';
-import SearchBar from './SearchBar';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
 import {
-    loadSportHalls,
-    addSportHall,
-    deleteSportHall,
-    loadCourses,
-    deleteCourse,
-    addCourse,
     loadCourseCustomers
 } from './API';
-import editIcon from "../edit.png";
-import deleteIcon from "../delete.png";
 import CustomerInformations from "./CustomerInformations";
 
 class CourseCustomers extends React.Component{
