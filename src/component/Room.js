@@ -1,15 +1,20 @@
 import React from 'react';
-import {loadRoom, modifyRoom} from './API';
+import {loadRoom, modifyRoom, deleteRoom} from './API';
 
 
 class Room extends React.Component{
-
     constructor(props) {
         super(props);
+        const idTexte = props.match.params.id;
+        const id = idTexte.split('-');
         const state = {
-            id_room : parseInt(props.match.params.id_room),
-            id_sport_hall : parseInt(props.match.params.id_sport_hall),
+            id_room: id[1],
+            sport_hall : {
+                id_sport_hall: id[0],
+                name: "",
+            },
             max_capacity: 0,
+            input_max_capacity: 0,
             loading: true,
             error: false,
             errorMessage: "",
@@ -24,20 +29,27 @@ class Room extends React.Component{
 
     async modifyRoom(event){
         event.preventDefault();
-        await modifyRoom(this.state.id_room, this.state.id_sport_hall,this.state.max_capacity);
+        await modifyRoom(this.state.id_room, this.state.sport_hall.id_sport_hall,this.state.input_max_capacity);
         this.search();
+    }
+
+    async deleteRoom(event){
+        event.preventDefault();
+        await deleteRoom(this.state.id_room, this.state.sport_hall.id_sport_hall);
+        this.props.history.push("/courses");
     }
 
     search() {
         this.setState({loading: true, error: false}, async () => {
             try{
-                const result = await loadRoom(this.state.id_room, this.state.id_sport_hall);
+                const result = await loadRoom(this.state.id_room, this.state.sport_hall.id_sport_hall);
                 const state = {
                     loaded: true,
                     loading: false,
                     id_room: result.id_room,
-                    id_sport_hall: result.id_sport_hall,
-                    max_capacity: result.max_capacity
+                    sport_hall: result.sport_hall,
+                    max_capacity: result.max_capacity,
+                    input_max_capacity: result.max_capacity
                 };
                 this.setState(state);
             } catch (e) {
@@ -59,28 +71,22 @@ class Room extends React.Component{
             Content = <p>{this.state.errorMessage}</p>
         } else {
             Content =
-                <form>
-                    <p>Room: {this.state.id_room} - Sporthall: {this.state.id_sport_hall}</p>
-                    <label>Room: </label>
-                    <input type="text"
-                           value={this.state.id_room}
-                           onChange={(e) => this.setState({id_room: e.target.value})}
-                           required
-                    /><br/>
-                    <label>Sport hall: </label>
-                    <input type="text"
-                           value={this.state.id_sport_hall}
-                           onChange={(e) => this.setState({id_sport_hall: e.target.value})}
-                           required
-                    /><br/>
-                    <label>Max capacity: </label>
-                    <input type="text"
-                           value={this.state.max_capacity}
-                           onChange={(e) => this.setState({max_capacity: e.target.value})}
-                           required
-                    /><br/>
-                    <button onClick={(event) => this.modifyRoom(event)}>Modify</button>
-                </form>
+                <div>
+                    <p>Infos:</p>
+                    <p>Room: {this.state.id_room} - Sporthall: {this.state.sport_hall.name} - Max capacity: {this.state.max_capacity}</p>
+                    <p>Modify:</p>
+                    <form>
+                        <label>Max capacity: </label>
+                        <input type="text"
+                               value={this.state.input_max_capacity}
+                               onChange={(e) => this.setState({input_max_capacity: e.target.value})}
+                               required
+                        /><br/>
+                        <button onClick={(event) => this.modifyRoom(event)}>Modify</button>
+                    </form>
+                    <p>Delete:</p>
+                    <button onClick={(event) => this.deleteRoom(event)}>Delete</button>
+                </div>
         }
 
         return(

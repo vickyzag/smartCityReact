@@ -32,7 +32,7 @@ function App() {
                 <Toolbar>
                     <Button color="inherit" href="/sportHalls">Sport Halls</Button>
                     <Button color="inherit" href="/courses">Courses</Button>
-                    <Button color="inherit" href="/customers">Customers</Button>
+                    <Button color="inherit" href="/customer">Customers</Button>
                     <Button color="inherit" href="/manager">Manager</Button>
                     <Button color="inherit" href="/admin">Admin</Button>
                     <Typography variant="h6" className={classes.title}>

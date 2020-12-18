@@ -102,7 +102,7 @@ class Courses extends React.Component{
                                 <tr key={index}>
                                     <td> {h.sport_hall.name}</td>
                                     <td>
-                                        <Link to={`/room/${h.sport_hall.id}-${h.id_room}`}>{h.id_room}</Link>
+                                        <Link to={`/room/${h.sport_hall.id_sport_hall}-${h.id_room}`}>{h.id_room}</Link>
                                     </td>
                                     <td>{h.starting_date_time}</td>
                                     <td>{h.ending_date_time}</td>

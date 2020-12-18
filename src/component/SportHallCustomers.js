@@ -46,7 +46,7 @@ class SportHallCustomers extends React.Component{
             return (<p>Loading ...</p>);
         } else if(this.state.error){
             return (<p>{this.state.errorMessage}</p>);
-        } else if (this.state.customers.length == 0){
+        } else if (this.state.customers.length === 0){
             return (<p>No customer for this sport hall</p>);
         }else {
             return (

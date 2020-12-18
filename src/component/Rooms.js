@@ -1,7 +1,6 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
 import {loadRooms, addRoom, deleteRoom} from './API';
 import editIcon from "../edit.png";
 import deleteIcon from "../delete.png";
@@ -99,7 +98,7 @@ class Rooms extends React.Component{
                                     <td>{h.id_sport_hall.name}</td>
                                     <td>{h.max_capacity}</td>
                                     <td>
-                                        <Link to={`/room/${h.sport_hall.id}-${h.id_room}`}><img src={editIcon} className="options-icon" alt="modify"/></Link>
+                                        <Link to={`/room/${h.id_sport_hall}-${h.id_room}`}><img src={editIcon} className="options-icon" alt="modify"/></Link>
                                     </td>
                                     <td>
                                         <img src={deleteIcon} className="options-icon" alt="delete"  onClick={(e) => this.deleteById(h.id_room, h.id_sport_hall)}/>
@@ -134,18 +133,4 @@ class Rooms extends React.Component{
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        rooms : state.rooms.listeRooms
-    }
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addRoom: (roomObject) => {
-            dispatch({type: "addRoom", payload:{newRoom: roomObject}});
-        }
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Rooms);
+export default (Rooms)

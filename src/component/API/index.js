@@ -16,7 +16,13 @@ import {
     getRoomById,
     updateRoom,
     postRoom,
-    deleteRoomById
+    deleteRoomById,
+    getCustomers,
+    getCustomerByEmail,
+    postCustomer,
+    postManager,
+    updateCustomer,
+    deleteCustomerByEmail
 } from './http';
 
 const login = async (email, password) => {
@@ -212,9 +218,9 @@ const loadRoom = async (id_room, id_sport_hall) => {
     try {
         const data = await getRoomById(id_room, id_sport_hall);
         return {
-            id_room: data.id_room,
-            id_sport_hall: data.id_sport_hall,
-            max_capacity: data.manager.max_capacity,
+            id_room: data.id,
+            sport_hall: data.sportHall,
+            max_capacity: data.max_capacity,
         };
     } catch (e) {
         throw new Error("Something went wrong, try again later "+e.toString());
@@ -241,5 +247,81 @@ const deleteRoom = async (id_room, id_sport_hall) => {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 };
+const loadCustomer = async (email) => {
+    try {
+        const data = await getCustomerByEmail(email);
+        return {
+            id: data.id,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            birth_date: data.birth_date,
+            gender: data.gender,
+            phone_number: data.phone_number,
+            email: data.email,
+            address: data.address,
+            city_name: data.city_name,
+            zip_code: data.zip_code,
+            country: data.country
+        };
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
+const loadCustomers = async () => {
+    try {
+        const data = await getCustomers();
+        const customers = []
+        console.log(data);
+        for (const customer of data) {
+            customers.push(
+                {
+                    id: customer.customer.id,
+                    first_name: customer.customer.first_name,
+                    last_name: customer.customer.last_name,
+                    birth_date: customer.customer.birth_date,
+                    gender: customer.customer.gender,
+                    phone_number: customer.customer.phone_number,
+                    email: customer.customer.email,
+                    inscription_date: customer.customer.inscription_date,
+                    is_manager: (customer.customer.is_manager ? "yes" : "no"),
+                    is_instructor: (customer.customer.is_instructor ? "yes" : "no"),
+                    language: customer.customer.language,
+                    address: customer.customer.address+", "+customer.customer.zip_code+" "+customer.customer.city_name+" "+customer.customer.country,
+                }
+            )
+        }
+        return customers;
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const addCustomer = async (first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country) => {
+    try {
+        await postCustomer(first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const addManager = async (first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country) => {
+    try {
+        await postManager(first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const modifyCustomer = async (first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country) => {
+    try {
+        await updateCustomer(first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+const deleteCustomer = async (email) => {
+    try {
+        await deleteCustomerByEmail(email);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
 
-export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall, loadCourses, addCourse, modifyCourse, loadCourse, deleteCourse, loadCourseCustomers, loadSportHallCustomers, loadRooms, loadRoom, addRoom, modifyRoom, deleteRoom};
+export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall, loadCourses, addCourse, modifyCourse, loadCourse, deleteCourse, loadCourseCustomers, loadSportHallCustomers, loadRooms, loadRoom, addRoom, modifyRoom, deleteRoom, loadCustomer, loadCustomers, getCustomerByEmail, addCustomer, addManager, modifyCustomer, deleteCustomer};
