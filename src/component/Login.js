@@ -15,6 +15,7 @@ class Login extends React.Component{
     async connect(event){
         event.preventDefault();
         await login(this.state.inputEmail, this.state.inputPassword);
+        this.props.history.push("/");
     }
 
 

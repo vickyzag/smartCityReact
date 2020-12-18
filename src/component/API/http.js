@@ -10,6 +10,9 @@ const CUSTOMER_URL = getAPI("customer/");
 const MANAGER_URL = getAPI("manager/");
 const CUSTOMER_COURSE_URL = getAPI("customerCourse/")
 const CUSTOMER_SPORTHALL_URL = getAPI("sportHallCustomer/");
+const ADMIN_URL = getAPI("admin/");
+const COURSE_CUSTOMER_URL = getAPI("customerCourse/")
+const SPORTHALL_CUSTOMER_URL = getAPI("sportHallCustomer/");
 
 const connexion = async (email, password) => {
     try {
@@ -17,7 +20,6 @@ const connexion = async (email, password) => {
             email: email,
             password: password
         });
-        console.log(resp.data);
         localStorage.setItem("token", resp.data);
     } catch (e) {
         throw new Error("Erreur"+e.toString());
@@ -174,7 +176,8 @@ const getCustomers = async () => {
 
 };
 const getCustomerByEmail = async (email) => {
-    const rep = await axios.get(CUSTOMER_URL + email);
+    const rep = await axios.get(CUSTOMER_URL + email,
+        {headers: getHeader()});
     return rep.data;
 };
 const postCustomer = async (first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country) => {
@@ -198,11 +201,11 @@ const postCustomer = async (first_name, last_name, birth_date, gender, phoneNumb
 const postManager = async (first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country) => {
     await axios.post(MANAGER_URL,
         {
-            first_name: first_name,
-            last_name: last_name,
-            birth_date: birth_date,
+            firstname: first_name,
+            lastname: last_name,
+            birthdate: birth_date,
             gender: gender,
-            phone_number: phoneNumber,
+            phonenumber: phoneNumber,
             email: email,
             password: password,
             language: language,
@@ -243,5 +246,26 @@ const deleteCustomerByEmail = async (email) => {
     return rep.data;
 };
 
+const postAdmin = async (email, password) => {
+    await axios.post(ADMIN_URL,
+        {
+            email: email,
+            password: password
+        },
+        {headers: getHeader()})
+}
+const getCustomerCourses = async (email) => {
+    const rep = await axios.get(COURSE_CUSTOMER_URL+ "customer/" + email,
+        {headers: getHeader()});
+    console.log(rep);
+    return rep.data;
+};
+const getCustomerSportHalls = async (email) => {
+    const rep = await axios.get(SPORTHALL_CUSTOMER_URL + "customer/" + email,
+        {headers: getHeader()});
 
-export {connexion, getSportHalls, getSportHallById, postSportHall, updateSportHall, deleteSportHallById, getCourses, getCourseById, postCourse, updateCourse, deleteCourseById, getCourseCustomers, getSportHallCustomers, getRooms, getRoomById, postRoom, updateRoom, deleteRoomById, getCustomers, getCustomerByEmail, postCustomer, postManager, updateCustomer, deleteCustomerByEmail};
+    return rep.data;
+
+};
+
+export {connexion, getSportHalls, getSportHallById, postSportHall, updateSportHall, deleteSportHallById, getCourses, getCourseById, postCourse, updateCourse, deleteCourseById, getCourseCustomers, getSportHallCustomers, getRooms, getRoomById, postRoom, updateRoom, deleteRoomById, getCustomers, getCustomerByEmail, postCustomer, postManager, updateCustomer, deleteCustomerByEmail, postAdmin, getCustomerCourses, getCustomerSportHalls};

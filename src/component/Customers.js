@@ -70,14 +70,7 @@ class Customers extends React.Component{
         this.search();
     }
 
-    componentDidUpdate(prevProps) {
-        if(this.props !== prevProps){
-            this.setState({
-                customers: this.props.customers,
-                customersToShow: this.props.customers
-            });
-        }
-    }
+
 
     changeValuesToShow(string){
         const customersToShow = this.state.customers;
@@ -180,6 +173,11 @@ class Customers extends React.Component{
                                onChange={(event) => {
                                    this.setState({inputEmail: event.target.value});
                                }}/>
+                        <label>Password: </label>
+                        <input type="password"
+                               onChange={(event) => {
+                                   this.setState({inputPassword: event.target.value});
+                               }}/>
                         <label>Language: </label>
                         <input type="text"
                                onChange={(event) => {
@@ -205,7 +203,8 @@ class Customers extends React.Component{
                                onChange={(event) => {
                                    this.setState({inputCountry: event.target.value});
                                }}/>
-                        <button onClick={(event) => this.addSportHall(event)}>Add</button>
+                        <button onClick={(event) => this.addCustomer(event)}>Add as customer</button>
+                        <button onClick={(event) => this.addManager(event)}>Add as manager</button>
                     </form>
                 </div>
             );

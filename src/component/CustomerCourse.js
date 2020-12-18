@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-    loadCourseCustomers
+    loadCustomerCourses
 } from './API';
-import CustomerInformations from "./CustomerInformations";
+import CourseInformations from "./CourseInformations";
 
-class CourseCustomers extends React.Component{
+class CustomerCourses extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            courseId : parseInt(props.match.params.id),
-            customers: [],
+            customer : props.match.params.email,
+            courses: [],
             loading: true,
             error: false,
             errorMessage: "",
@@ -22,11 +22,11 @@ class CourseCustomers extends React.Component{
     search() {
         this.setState({loading: true, error: false}, async () => {
             try{
-                const result = await loadCourseCustomers(this.state.courseId);
+                const result = await loadCustomerCourses(this.state.customer);
                 const state = {
                     loaded: true,
                     loading: false,
-                    customers: result,
+                    courses: result,
                 };
                 this.setState(state);
             } catch (e) {
@@ -41,22 +41,23 @@ class CourseCustomers extends React.Component{
     }
 
 
+
     render() {
         if(this.state.loading === true){
             return (<p>Loading ...</p>);
         } else if(this.state.error){
             return (<p>{this.state.errorMessage}</p>);
-        } else if (this.state.customers.length === 0){
-            return (<p>No customer for this course</p>);
+        } else if (this.state.courses.length === 0){
+            return (<p>No course for this customer</p>);
         }else {
             return (
-                <CustomerInformations
-                    customers={this.state.customers}
-                    />
+                <CourseInformations
+                    courses={this.state.courses}
+                />
             );
         }
     }
 }
 
 
-export default (CourseCustomers);
+export default (CustomerCourses);

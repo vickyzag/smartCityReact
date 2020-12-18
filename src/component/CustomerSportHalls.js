@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-    loadCourseCustomers
+    loadCustomerSportHalls
 } from './API';
-import CustomerInformations from "./CustomerInformations";
+import SportHallInformations from "./SportHallInformations";
 
-class CourseCustomers extends React.Component{
+class CustomerSportHalls extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            courseId : parseInt(props.match.params.id),
-            customers: [],
+            customer : props.match.params.email,
+            sportHalls: [],
             loading: true,
             error: false,
             errorMessage: "",
@@ -22,11 +22,11 @@ class CourseCustomers extends React.Component{
     search() {
         this.setState({loading: true, error: false}, async () => {
             try{
-                const result = await loadCourseCustomers(this.state.courseId);
+                const result = await loadCustomerSportHalls(this.state.customer);
                 const state = {
                     loaded: true,
                     loading: false,
-                    customers: result,
+                    sportHalls: result,
                 };
                 this.setState(state);
             } catch (e) {
@@ -46,17 +46,17 @@ class CourseCustomers extends React.Component{
             return (<p>Loading ...</p>);
         } else if(this.state.error){
             return (<p>{this.state.errorMessage}</p>);
-        } else if (this.state.customers.length === 0){
-            return (<p>No customer for this course</p>);
+        } else if (this.state.sportHalls.length === 0){
+            return (<p>No sport hall for this customer</p>);
         }else {
             return (
-                <CustomerInformations
-                    customers={this.state.customers}
-                    />
+                < SportHallInformations
+                    sportHalls={this.state.sportHalls}
+                />
             );
         }
     }
 }
 
 
-export default (CourseCustomers);
+export default (CustomerSportHalls);

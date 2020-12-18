@@ -22,7 +22,10 @@ import {
     postCustomer,
     postManager,
     updateCustomer,
-    deleteCustomerByEmail
+    deleteCustomerByEmail,
+    postAdmin,
+    getCustomerCourses,
+    getCustomerSportHalls
 } from './http';
 
 const login = async (email, password) => {
@@ -258,6 +261,7 @@ const loadCustomer = async (email) => {
             gender: data.gender,
             phone_number: data.phone_number,
             email: data.email,
+            language: data.language,
             address: data.address,
             city_name: data.city_name,
             zip_code: data.zip_code,
@@ -309,9 +313,9 @@ const addManager = async (first_name, last_name, birth_date, gender, phoneNumber
         throw new Error("Something went wrong, try again later "+e.toString());
     }
 }
-const modifyCustomer = async (first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country) => {
+const modifyCustomer = async (email, first_name, last_name, birth_date, gender, phoneNumber, newEmail, password, language, address, city, zipCode, country) => {
     try {
-        await updateCustomer(first_name, last_name, birth_date, gender, phoneNumber, email, password, language, address, city, zipCode, country);
+        await updateCustomer(email, first_name, last_name, birth_date, gender, phoneNumber, newEmail, password, language, address, city, zipCode, country);
     } catch (e) {
         throw new Error("Something went wrong, try again later "+e.toString());
     }
@@ -324,4 +328,51 @@ const deleteCustomer = async (email) => {
     }
 };
 
-export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall, loadCourses, addCourse, modifyCourse, loadCourse, deleteCourse, loadCourseCustomers, loadSportHallCustomers, loadRooms, loadRoom, addRoom, modifyRoom, deleteRoom, loadCustomer, loadCustomers, getCustomerByEmail, addCustomer, addManager, modifyCustomer, deleteCustomer};
+const addAdmin = async(email, password) => {
+    try {
+        await postAdmin(email, password);
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+}
+
+const loadCustomerCourses = async (email) => {
+    try {
+        const data = await getCustomerCourses(email);
+        const courses = [];
+        for (const course of data) {
+            courses.push(
+                {
+                    sport_hall: course.course.sportHall,
+                    id_room: course.course.room.id_room,
+                    starting_date_time: course.course.starting_date_time,
+                    ending_date_time: course.course.ending_date_time,
+                    level: course.course.level,
+                    activity: course.course.activity,
+                    instructor: course.course.instructor
+                }
+            )
+        }
+        return courses;
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
+const loadCustomerSportHalls = async (email) => {
+    try {
+        const data = await getCustomerSportHalls(email);
+        const sportHalls = [];
+        for (const sportHall of data) {
+            sportHalls.push(
+                {
+                    name: sportHall.name
+                }
+            )
+        }
+        return sportHalls;
+    } catch (e) {
+        throw new Error("Something went wrong, try again later "+e.toString());
+    }
+};
+
+export {login, loadSportHalls, loadSportHall, addSportHall, modifySportHall, deleteSportHall, loadCourses, addCourse, modifyCourse, loadCourse, deleteCourse, loadCourseCustomers, loadSportHallCustomers, loadRooms, loadRoom, addRoom, modifyRoom, deleteRoom, loadCustomer, loadCustomers, getCustomerByEmail, addCustomer, addManager, modifyCustomer, deleteCustomer, addAdmin, loadCustomerCourses, loadCustomerSportHalls};
